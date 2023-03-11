@@ -44,18 +44,20 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# move tiling windows via drag & drop by left-clicking into the title bar,
+# or left-clicking anywhere into the window while holding the floating modifier.
+tiling_drag modifier titlebar
+
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # rofi
-bindsym $mod+d exec "rofi -show run"
-bindsym Mod1+Tab exec "rofi -show window"
+bindsym $mod+d exec --no-startup-id "rofi -show run"
+bindsym Mod1+Tab exec --no-startup-id "rofi -show window"
 
-# start dmenu (a program launcher)
-# bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -63,10 +65,10 @@ bindsym Mod1+Tab exec "rofi -show window"
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -75,10 +77,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -87,7 +89,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+c split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -164,10 +166,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -184,16 +186,18 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 bindsym Print exec xfce4-screenshooter -r
-bindsym $mod+f exec --no-startup-id pcmanfm 
-bindsym $mod+b exec --no-startup-id brave
-bindsym $mod+p exec --no-startup-id pavucontrol --class floating
+bindsym $mod+f exec --no-startup-id pcmanfm
+bindsym $mod+b exec --no-startup-id firefox
 
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id picom --experimental-backends &
+exec_always --no-startup-id picom &
+
+exec_always --no-startup-id xrandr --output DP-2 --mode 1920x1080 --rate 144
 
 gaps inner 25
-gaps outer 25
+gaps outer  25
 
 for_window [class="^floating$"] floating enable
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 0
 
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
